@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
+    "mapbox-gl": "^1.10.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-mapbox-gl": "^4.8.3",
