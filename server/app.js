@@ -9,25 +9,32 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const app = express();
-
-console.log('Testing');
+const cors = require("cors");
 
 /**
  * Middlewares
  */
 
+app.use(
+  cors({
+    origin: process.env.FRONT_END_URL,
+  })
+);
+
 app.use(logger("dev")); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
-app.use(express.urlencoded({
-  extended: false
-})); // Access data sent as urlEncoded (standard form or postman) @req.body
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+); // Access data sent as urlEncoded (standard form or postman) @req.body
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app;
 app.use(
   session({
     store: new MongoStore({
-      mongooseConnection: mongoose.connection
+      mongooseConnection: mongoose.connection,
     }),
     secret: process.env.SESSION_SECRET,
     resave: true,
@@ -36,10 +43,10 @@ app.use(
 );
 
 // Test to see if user is logged In before getting into any router.
-app.use(function (req, res, next) {
-  console.log(req.session.currentUser);
-  next();
-});
+// app.use(function (req, res, next) {
+//   console.log(req.session.currentUser);
+//   next();
+// });
 
 /**
  * Routes
@@ -48,9 +55,11 @@ app.use(function (req, res, next) {
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const itemsRouter = require('./routes/items');
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/items", itemsRouter);
 
 module.exports = app;
