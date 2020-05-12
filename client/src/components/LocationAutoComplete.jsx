@@ -12,11 +12,11 @@ class LocationAutoComplete extends Component {
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
 
-    // if (!process.env.REACT_APP_MAPBOX_TOKEN) {
-    //   throw new Error(
-    //     "You don't have any 'process.env.REACT_APP_MAPBOX_API_KEY'"
-    //   );
-    // }
+    if (!process.env.REACT_APP_MAPBOX_TOKEN) {
+      throw new Error(
+        "You don't have any 'process.env.REACT_APP_MAPBOX_API_KEY'"
+      );
+    }
   }
 
   handleSearchChange(e) {
@@ -60,32 +60,32 @@ class LocationAutoComplete extends Component {
       search: place.place_name,
       results: [],
     });
-
     this.props.onSelect(place);
   }
 
   render() {
     return (
-      <div className="LocationAutoComplete">
+      <div className='LocationAutoComplete'>
         <input
-          className="input"
-          type="text"
+          className='input'
+          type='text'
           value={this.state.search}
           onChange={this.handleSearchChange}
-          placeholder="Enter an address"
+          placeholder='Enter an address'
+          name='address'
         />
-        <ul className="LocationAutoComplete-results">
+        <ul className='LocationAutoComplete-results'>
           {this.state.results.map((place) => (
             <li
               key={place.id}
-              className="LocationAutoComplete-items"
+              className='LocationAutoComplete-items'
               onClick={() => this.handleItemClicked(place)}
             >
               {place.place_name}
             </li>
           ))}
           {this.state.isLoading && (
-            <li className="LocationAutoComplete-items">Loading...</li>
+            <li className='LocationAutoComplete-items'>Loading...</li>
           )}
         </ul>
       </div>
