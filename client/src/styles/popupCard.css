@@ -1,0 +1,27 @@
+.popupCard {
+    background-color: white;
+    box-shadow: 0 0 5px 5px lightgray;
+    width: 20vw;
+    color: black;
+    border-radius: 10px;
+    z-index: 100;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 40px;
+    top: 100px;
+}
+
+.popupCard__image {
+    width: 30%;
+}
+
+.popupCard__description {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+}

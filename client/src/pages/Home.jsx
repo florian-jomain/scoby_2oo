@@ -1,6 +1,9 @@
 import React from "react";
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import axios from "axios";
+import ItemCard from "../components/ItemCard";
+import "../styles/popupCard.css";
+import mapboxStyle from "../styles/map-style.json";
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
@@ -9,6 +12,8 @@ const Map = ReactMapboxGl({
 class Home extends React.Component {
   state = {
     items: [],
+    displayPopup: false,
+    selectedItem: null,
   };
 
   componentDidMount() {
@@ -22,15 +27,23 @@ class Home extends React.Component {
       });
   }
 
+  toggleItem = (index) => {
+    const displayPopup = this.state.displayPopup;
+    this.setState({ displayPopup: !displayPopup, selectedItem: index });
+  };
+
   render() {
-    const image = new Image(20, 30);
-    image.src = "./media/red-marker.png";
+    const image = new Image(30, 30);
+    image.src = "./media/marker-purple.svg";
     const images = ["newIcon", image];
+
+    const { selectedItem, items, displayPopup } = this.state;
 
     return (
       <div className='home'>
+        {displayPopup && <ItemCard selectedItem={items[selectedItem]} />}
         <Map
-          style='mapbox://styles/therenotthere/cka2jeg5b0cpt1isl310p5kvc'
+          style={mapboxStyle}
           containerStyle={{
             height: "100vh",
             width: "100vw",
@@ -50,6 +63,7 @@ class Home extends React.Component {
                   item.location.coordinates[1],
                   item.location.coordinates[0],
                 ]}
+                onClick={(event) => this.toggleItem(index)}
               />
             ))}
           </Layer>
